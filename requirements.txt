@@ -1,0 +1,11 @@
+langchain
+langchain-core
+langchain-ollama
+langchain-community
+langchain-chroma
+streamlit
+pypdf2
+python-docx
+pandas
+pillow
+pytesseract
