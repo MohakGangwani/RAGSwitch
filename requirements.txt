@@ -9,3 +9,5 @@ python-docx
 pandas
 pillow
 pytesseract
+pyyaml
+nbformat
