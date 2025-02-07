@@ -11,3 +11,8 @@ pillow
 pytesseract
 pyyaml
 nbformat
+pypdf
+sentence-transformers
+faiss-gpu-cu12
+langchain_huggingface
+docx2txt
