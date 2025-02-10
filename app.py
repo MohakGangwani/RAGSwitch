@@ -1,6 +1,7 @@
 import streamlit as st
 st.set_page_config(layout="wide")
-
+from dotenv import load_dotenv
+load_dotenv()
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_ollama import ChatOllama
@@ -8,8 +9,8 @@ from src.config import *
 from src.utils import *
 
 # --- Initialize App ---
-st.title("💬 AI Chatbot with RAG")
-st.caption("🚀 A chatbot with Retrieval-Augmented Generation (RAG) using Ollama")
+st.title("💬 RAGSwitch")
+st.caption("🚀 A chatbot with Retrieval-Augmented Generation (RAG)")
 
 # Sidebar: File upload, model selection, clear button, and model change check
 with st.sidebar:
@@ -46,6 +47,11 @@ with st.sidebar:
         st.session_state.vector_store = None
         st.toast("Memory and uploaded files cleared!", icon="✅")
 
+if model_1.startswith("openai:") or (model_2 and model_2.startswith("openai:")):
+    if not os.environ.get("OPENAI_API_KEY"):
+        st.error("Please set the OPENAI_API_KEY environment variable to use OpenAI models.")
+        st.stop()
+
 # --- Initialize Session State ---
 if "messages" not in st.session_state:
     st.session_state.messages = []  # For storing chat history
@@ -60,12 +66,20 @@ if uploaded_files:
         process_uploaded_files(uploaded_files)
     st.toast("Files processed and vector store created!", icon="✅")
 
-# Initialize chain_1
+# --- Initialize chain_1 ---
 if "chain_1" not in st.session_state or st.session_state.current_model_1 != model_1:
-    ensure_model_available(model_1)
+    # Only ensure availability if using Ollama (OpenAI models are cloud-hosted)
+    if not model_1.startswith("openai:"):
+        ensure_model_available(model_1)
     st.session_state.current_model_1 = model_1
     try:
-        llm_1 = ChatOllama(model=model_1)
+        if model_1.startswith("openai:"):
+            from langchain_openai import ChatOpenAI
+            # Extract the OpenAI model name after the "openai:" prefix
+            openai_model = model_1.split("openai:")[1]
+            llm_1 = ChatOpenAI(model_name=openai_model, temperature=0)
+        else:
+            llm_1 = ChatOllama(model=model_1)
     except Exception as e:
         st.error(f"Failed to initialize Model 1: {e}")
         st.stop()
@@ -77,13 +91,19 @@ if "chain_1" not in st.session_state or st.session_state.current_model_1 != mode
         history_messages_key="history",
     )
 
-# Initialize chain_2 if in comparison mode
+# --- Initialize chain_2 if in comparison mode ---
 if comparison_mode:
     if "chain_2" not in st.session_state or st.session_state.current_model_2 != model_2:
-        ensure_model_available(model_2)
+        if not model_2.startswith("openai:"):
+            ensure_model_available(model_2)
         st.session_state.current_model_2 = model_2
         try:
-            llm_2 = ChatOllama(model=model_2)
+            if model_2.startswith("openai:"):
+                from langchain_openai import ChatOpenAI
+                openai_model = model_2.split("openai:")[1]
+                llm_2 = ChatOpenAI(model_name=openai_model, temperature=0)
+            else:
+                llm_2 = ChatOllama(model=model_2)
         except Exception as e:
             st.error(f"Failed to initialize Model 2: {e}")
             st.stop()
