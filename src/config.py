@@ -1,15 +1,15 @@
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
-# List of available models (both OpenAI and Ollama)
+# List of available models (both OpenAI and OLlama)
 models = models = [
-    "openai:o1", "openai:o3-mini", "openai:gpt-4", "openai:gpt-3.5-turbo",
-    "codegemma:2B", "codegemma:7B", "command-r:35B", "deepseek-coder-v2:16B",
-    "deepseek-r1:1.5b", "deepseek-r1:7B", "deepseek-r1:8B", "deepseek-r1:14B",
-    "deepseek-r1:32B", "gemma2:2B", "gemma2:9B", "gemma2:27B", "llama3.1:8B",
-    "llama3.1:70B", "llama3.2:1B", "llama3.2:3B", "mistral:7b", "phi3.5:3.8B",
-    "phi4:14B", "qwen:0.5B", "qwen:1.8B", "qwen:4B", "qwen:7B", "qwen:14B",
-    "qwen:32B", "qwen2:0.5B", "qwen2:1.5B", "qwen2:7B", "qwen2.5:0.5B",
-    "qwen2.5:1.5B", "qwen2.5:3B", "qwen2.5:7B", "qwen2.5:14B", "qwen2.5:32B"
+    "OpenAI(o1)", "OpenAI(o3-mini)", "OpenAI(gpt-4)", "OpenAI(gpt-3.5-turbo)",
+    "Codegemma(2B)", "Codegemma(7B)", "command-r(35B)", "DeepSeek-coder-v2(16B)",
+    "DeepSeek-r1(1.5B)", "DeepSeek-r1(7B)", "DeepSeek-r1(8B)", "DeepSeek-r1(14B)",
+    "DeepSeek-r1(32B)", "Gemma2(2B)", "Gemma2(9B)", "Gemma2(27B)", "Llama3.1(8B)",
+    "Llama3.1(70B)", "Llama3.2(1B)", "Llama3.2(3B)", "Mistral(7b)", "Phi3.5(3.8B)",
+    "Phi4(14B)", "Qwen(0.5B)", "Qwen(1.8B)", "Qwen(4B)", "Qwen(7B)", "Qwen(14B)",
+    "Qwen(32B)", "Qwen2(0.5B)", "Qwen2(1.5B)", "Qwen2(7B)", "Qwen2.5(0.5B)",
+    "Qwen2.5(1.5B)", "Qwen2.5(3B)", "Qwen2.5(7B)", "Qwen2.5(14B)", "Qwen2.5(32B)"
 ]
 
 

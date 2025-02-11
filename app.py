@@ -22,10 +22,13 @@ with st.sidebar:
     )
     comparison_mode = st.toggle("Enable Model Comparison", value=False)
     if comparison_mode:
-        model_1 = st.selectbox("Choose Model 1", models, index=0)
-        model_2 = st.selectbox("Choose Model 2", models, index=1)
+        model_1_header = st.selectbox("Choose Model 1", models, index=0)
+        model_1 = model_1_header.lower().replace('(', ':').replace(')', '')
+        model_2_header = st.selectbox("Choose Model 2", models, index=1)
+        model_2 = model_2_header.lower().replace('(', ':').replace(')', '')
     else:
-        model_1 = st.selectbox("Choose Model", models, index=0)
+        model_1_header = st.selectbox("Choose Model 1", models, index=0)
+        model_1 = model_1_header.lower().replace('(', ':').replace(')', '')
         model_2 = None
 
     # Check if the model selection changed; if so, clear the session state.
@@ -124,10 +127,10 @@ if comparison_mode:
         # Then display the responses side by side
         col1, col2 = st.columns(2)
         with col1:
-            st.header(f"**{model_1}**")
+            st.header(f"**{model_1_header}**")
             st.chat_message("assistant").markdown(message.get("model_1_response", ""))
         with col2:
-            st.header(f"**{model_2}**")
+            st.header(f"**{model_2_header}**")
             st.chat_message("assistant").markdown(message.get("model_2_response", ""))
 else:
     # Single-model mode: Display messages in order (both user and assistant messages are stored)
@@ -161,7 +164,7 @@ if prompt := st.chat_input("What's up?"):
         full_response_2 = ""
         try:
             with col1:
-                st.header(f"**{model_1}**")
+                st.header(f"**{model_1_header}**")
                 response_placeholder_1 = st.empty()
                 for chunk in st.session_state.chain_1.stream(
                     {"input": augmented_prompt},
@@ -172,7 +175,7 @@ if prompt := st.chat_input("What's up?"):
                 response_placeholder_1.markdown(full_response_1)
 
             with col2:
-                st.header(f"**{model_2}**")
+                st.header(f"**{model_2_header}**")
                 response_placeholder_2 = st.empty()
                 for chunk in st.session_state.chain_2.stream(
                     {"input": augmented_prompt},
