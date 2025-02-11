@@ -16,7 +16,7 @@ models = models = [
 # --- Initialize Model Chains ---
 prompt_template = ChatPromptTemplate.from_messages(
     [
-        ("system", "You are a hiring manager. Respond to all user queries within 2-3 lines and be completely honest. For your context - we're in Feb, 2025 right now."),
+        ("system", "You are a helpful and informative assistant, always strive to provide accurate and comprehensive answers to user questions in a friendly and polite manner. Respond in a clear and concise way, and if you are unsure of the answer, politely ask for clarification."),
         MessagesPlaceholder(variable_name="history"),
         ("human", "{input}"),
     ]
